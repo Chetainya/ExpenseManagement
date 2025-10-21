@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: ExpensesManagement
+  datasource:
+    url: jdbc:postgresql://ep-nameless-tree-a4oy2ghv-pooler.us-east-1.aws.neon.tech/neondb
+    username: neondb_owner
+    password: npg_8UdjenHQyO6M
+
+
+  jpa:
+    hibernate:
+      ddl-auto: update        # create, create-drop, validate, update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
