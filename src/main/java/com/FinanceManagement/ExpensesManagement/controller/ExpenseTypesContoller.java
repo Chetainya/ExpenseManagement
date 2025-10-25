@@ -15,18 +15,19 @@ public class ExpenseTypesContoller {
 
     private ExpenseTypesService expenseTypesService;
 
+
     public ExpenseTypesContoller(ExpenseTypesService expenseTypesService){
         this.expenseTypesService = expenseTypesService;
     }
 
 
     @GetMapping("/")
-    public List<com.FinanceManagement.ExpensesManagement.Entities.ExpenseTypes> getAllExpenses(){
+    public List<com.FinanceManagement.ExpensesManagement.entities.ExpenseTypes> getAllExpenses(){
         return expenseTypesService.getAllExpenseTypes();
     }
 
     @GetMapping("/{id}")
-    public com.FinanceManagement.ExpensesManagement.Entities.ExpenseTypes getExpenseType(@PathVariable String id){
+    public com.FinanceManagement.ExpensesManagement.entities.ExpenseTypes getExpenseType(@PathVariable String id){
         return expenseTypesService.getExpenseType(id);
     }
 

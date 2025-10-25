@@ -1,4 +1,4 @@
-package com.FinanceManagement.ExpensesManagement.Entities;
+package com.FinanceManagement.ExpensesManagement.entities;
 
 
 import jakarta.persistence.Entity;
@@ -11,16 +11,13 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-public class Expenses {
+public class ExpenseTypes {
     @Id
     String id;
-    int amount;
-
-    @ManyToOne
-    @JoinColumn(name = "expense_type_id")
-    ExpenseTypes expenseType;
+    String type;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
     Users user;
+
 }

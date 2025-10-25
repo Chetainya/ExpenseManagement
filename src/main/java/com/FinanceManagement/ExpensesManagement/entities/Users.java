@@ -1,15 +1,11 @@
-package com.FinanceManagement.ExpensesManagement.Entities;
+package com.FinanceManagement.ExpensesManagement.entities;
 
 
 import com.FinanceManagement.ExpensesManagement.enums.Role;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import lombok.AccessLevel;
+import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.List;
 
 @Entity
 @Getter
@@ -20,8 +16,13 @@ public class Users {
     String id;
     String firstName;
     String lastName;
+    String password;
+
+    @Column(unique = true, nullable = false)
     String emailId;
     String contactNumber;
+
+    @Enumerated(EnumType.STRING)
     Role role;
 
 
