@@ -1,5 +1,6 @@
 package com.FinanceManagement.ExpensesManagement.config;
 
+import com.FinanceManagement.ExpensesManagement.repositary.UserRepositary;
 import com.FinanceManagement.ExpensesManagement.service.Impl.JwtService;
 import com.FinanceManagement.ExpensesManagement.service.Impl.UserLoginService;
 import jakarta.servlet.FilterChain;
@@ -24,6 +25,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     UserLoginService userLoginService;
+
+    @Autowired
+    UserRepositary userRepositary;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -6,7 +6,10 @@ import com.FinanceManagement.ExpensesManagement.enums.Role;
 import com.FinanceManagement.ExpensesManagement.exceptions.UserNotFoundException;
 import com.FinanceManagement.ExpensesManagement.repositary.UserRepositary;
 import com.FinanceManagement.ExpensesManagement.service.UserService;
+import com.FinanceManagement.ExpensesManagement.utils.JwtUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.JwtException;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +33,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private JwtUtils jwtUtils;
+
 
 
     @Override
@@ -43,18 +49,27 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ResponseEntity<Users> getUserById(String id) {
+    public ResponseEntity<Users> getUserById(String id , HttpServletRequest request) {
+
+
+
+
 
         Optional<Users> byId = userRepositary.findById(id);
         if(byId.isEmpty()){
             throw new UserNotFoundException("User not found");
         }
-        CustomUserDetail principal = (CustomUserDetail) SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        String username = principal.getUsername();
-        if(!username.equalsIgnoreCase(byId.get().getEmailId())){
-            throw new UserNotFoundException("Bad credentials");
+
+        if(!jwtUtils.isOwner(byId.get().getEmailId() , request)){
+            throw new JwtException("UnAuthorised Access to the Resource");
         }
+
+//        CustomUserDetail principal = (CustomUserDetail) SecurityContextHolder.getContext()
+//                .getAuthentication().getPrincipal();
+//        String username = principal.getUsername();
+//        if(!username.equalsIgnoreCase(byId.get().getEmailId())){
+//            throw new UserNotFoundException("Bad credentials");
+//        }
         return ResponseEntity.ok(byId.get());
 
     }

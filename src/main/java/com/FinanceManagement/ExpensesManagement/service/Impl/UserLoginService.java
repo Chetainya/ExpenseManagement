@@ -22,6 +22,5 @@ public class UserLoginService implements UserDetailsService {
         UserDetails customUserDetail = new CustomUserDetail(users);
         return customUserDetail;
 
-
     }
 }

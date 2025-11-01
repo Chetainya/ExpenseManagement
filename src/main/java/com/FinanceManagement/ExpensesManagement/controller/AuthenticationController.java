@@ -6,6 +6,7 @@ import com.FinanceManagement.ExpensesManagement.dto.JwtResponse;
 import com.FinanceManagement.ExpensesManagement.dto.RefreshTokenDto;
 import com.FinanceManagement.ExpensesManagement.dto.RequestDTO;
 import com.FinanceManagement.ExpensesManagement.entities.Users;
+import com.FinanceManagement.ExpensesManagement.exceptions.UserNotFoundException;
 import com.FinanceManagement.ExpensesManagement.repositary.UserRepositary;
 import com.FinanceManagement.ExpensesManagement.service.Impl.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/auth")
@@ -44,10 +47,20 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity<? > login(@RequestBody RequestDTO requestDTO){
         AuthRequestDto authRequestDto = objectMapper.convertValue(requestDTO.getApiData(), AuthRequestDto.class);
+        Optional<Users> userFromDB=userRepositary.findByEmailId(authRequestDto.getEmailId());
+
+        if(userFromDB.isEmpty()){
+            throw new UserNotFoundException();
+        }
+
+        Users users = userFromDB.get();
+
+
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequestDto.getEmailId(),authRequestDto.getPassword()));
-        String accessToken = jwtService.generateToken(authRequestDto.getEmailId(), true);
-        String refreshToken = jwtService.generateToken(authRequestDto.getEmailId(), false);
-        Users users=userRepositary.findByEmailId(authRequestDto.getEmailId()).get();
+
+        String accessToken = jwtService.generateToken(users.getEmailId(), true);
+        String refreshToken = jwtService.generateToken(users.getEmailId(), false);
+
         JwtResponse jwtResponse = new JwtResponse(accessToken, refreshToken, users);
         return ResponseEntity.ok(jwtResponse);
     }
