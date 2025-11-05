@@ -52,9 +52,6 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<Users> getUserById(String id , HttpServletRequest request) {
 
 
-
-
-
         Optional<Users> byId = userRepositary.findById(id);
         if(byId.isEmpty()){
             throw new UserNotFoundException("User not found");
@@ -64,12 +61,6 @@ public class UserServiceImpl implements UserService {
             throw new JwtException("UnAuthorised Access to the Resource");
         }
 
-//        CustomUserDetail principal = (CustomUserDetail) SecurityContextHolder.getContext()
-//                .getAuthentication().getPrincipal();
-//        String username = principal.getUsername();
-//        if(!username.equalsIgnoreCase(byId.get().getEmailId())){
-//            throw new UserNotFoundException("Bad credentials");
-//        }
         return ResponseEntity.ok(byId.get());
 
     }

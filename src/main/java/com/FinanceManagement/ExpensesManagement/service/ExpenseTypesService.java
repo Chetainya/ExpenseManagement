@@ -1,5 +1,6 @@
 package com.FinanceManagement.ExpensesManagement.service;
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
@@ -9,6 +10,6 @@ public interface ExpenseTypesService {
 
     com.FinanceManagement.ExpensesManagement.entities.ExpenseTypes getExpenseType(String id);
 
-    ResponseEntity<String> createExpenseType(String name);
+    ResponseEntity<String> createExpenseType(String name , HttpServletRequest request);
 
 }

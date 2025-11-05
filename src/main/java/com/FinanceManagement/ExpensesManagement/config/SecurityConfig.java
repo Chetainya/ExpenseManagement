@@ -33,6 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth->
                         auth.requestMatchers("/expenseType/**").authenticated()
                                 .requestMatchers(HttpMethod.GET,"/user/**").authenticated()
+                                .requestMatchers("/expense/**").authenticated()
                        .anyRequest().permitAll()).exceptionHandling(exception->exception.authenticationEntryPoint(customAuthenticationEntryPoint))
 
         .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

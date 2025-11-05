@@ -2,6 +2,7 @@ package com.FinanceManagement.ExpensesManagement.controller;
 
 
 import com.FinanceManagement.ExpensesManagement.service.ExpenseTypesService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +33,8 @@ public class ExpenseTypesContoller {
     }
 
     @PostMapping("/{name}")
-    public ResponseEntity<String> createExpenseType(@PathVariable String name){
-        return expenseTypesService.createExpenseType(name);
+    public ResponseEntity<String> createExpenseType(@PathVariable String name , HttpServletRequest request){
+        return expenseTypesService.createExpenseType(name , request);
     }
 
 
